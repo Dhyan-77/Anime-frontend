@@ -1,19 +1,44 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { formatDistanceToNow } from 'date-fns';
 
 const Detail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [anime, setAnime] = useState(null);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
+    // Get anime detail
     axios.get(`https://anime-qww3.onrender.com/api/v1/anime/${id}/`)
       .then(res => setAnime(res.data))
       .catch(err => console.error(err));
+
+    // Get logged in username
+    const user = localStorage.getItem("username");
+    setUsername(user);
   }, [id]);
 
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token"); // assuming token is stored after login
+      await axios.delete(`https://anime-qww3.onrender.com/api/v1/anime/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      alert("Deleted successfully");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete");
+    }
+  };
+
   if (!anime) return <p className="text-center mt-10 text-black">Loading...</p>;
+
+  const isOwner = username === anime.username;
 
   return (
     <div className="p-4 text-white min-h-screen bg-white/80 flex justify-center items-start overflow-hidden">
@@ -39,6 +64,23 @@ const Detail = () => {
               addSuffix: true,
             })}
           </p>
+
+          {isOwner && (
+            <div className="mt-4 flex gap-3">
+              <button
+                onClick={handleDelete}
+                className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => navigate(`/update/${anime.id}`)}
+                className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
+              >
+                Update
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

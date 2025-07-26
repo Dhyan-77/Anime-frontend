@@ -21,7 +21,7 @@ const Main = () => {
   return (
     <div className="flex h-full w-full bg-white/80 overflow-auto p-5">
       
-      <div className="grid gap-5 px-2 sm:px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full justify-items-center relative top-20">
+      <div className="grid p-3 gap-5 px-2 sm:px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full justify-items-center relative top-20">
         {post.map((post) => (
          <Link to = {`detail/${post.id}`}> <div
             className="bg-white/80 shadow-lg p-4 rounded-xl h-[290px] w-full sm:w-[300px] md:w-[350px] flex flex-col"
