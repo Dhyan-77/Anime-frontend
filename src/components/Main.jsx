@@ -9,7 +9,7 @@ const Main = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(' https://anime-qww3.onrender.com/api/v1/all/');
+        const response = await axios.get("https://anime-qww3.onrender.com/api/v1/all/");
         setPost(response.data);
       } catch (error) {
         console.log(error);
