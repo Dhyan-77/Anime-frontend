@@ -9,7 +9,7 @@ const Main = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/all/');
+        const response = await axios.get(' https://anime-qww3.onrender.com/api/v1/all/');
         setPost(response.data);
       } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ const Main = () => {
           >
             <img
               className="w-full h-48 object-cover rounded-md"
-              src={`http://localhost:8000${post.photos}`}
+              src={`https://anime-qww3.onrender.com${post.photos}`}
               alt="img"
             />
             <h1 className="font-semibold mt-2 line-clamp-2">{post.title}</h1>

@@ -18,7 +18,7 @@ const Signup = () => {
     const userdata = { username, email, password };
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/v1/register/", userdata);
+      const response = await axios.post("https://anime-qww3.onrender.com/api/v1/register/", userdata);
       setEmail("");
       setPassword("");
       setuserName("");

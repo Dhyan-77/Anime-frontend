@@ -19,7 +19,7 @@ const Post = () => {
     formData.append("photos", photos);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/v1/post/", formData, {
+      const res = await axios.post("https://anime-qww3.onrender.com/api/v1/post/", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           'Content-Type': 'multipart/form-data',

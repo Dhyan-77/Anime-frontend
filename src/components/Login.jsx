@@ -14,7 +14,7 @@ const Login = () => {
     const userdata = { username, password };
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/api/token/', userdata);
+      const response = await axios.post('https://anime-qww3.onrender.com/api/v1/api/token/', userdata);
       const { access, refresh } = response.data;
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);

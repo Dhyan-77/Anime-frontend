@@ -8,7 +8,7 @@ const Detail = () => {
   const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/anime/${id}/`)
+    axios.get(`https://anime-qww3.onrender.com/api/v1/anime/${id}/`)
       .then(res => setAnime(res.data))
       .catch(err => console.error(err));
   }, [id]);
