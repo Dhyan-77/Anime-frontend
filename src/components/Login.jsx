@@ -18,7 +18,7 @@ const Login = () => {
       const { access, refresh } = response.data;
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
-      localStorage.setItem("username", res.data.username); // on login
+      localStorage.setItem("username", response.data.username); // on login
 
 
       setUsername("");
