@@ -65,22 +65,7 @@ const Detail = () => {
             })}
           </p>
 
-          {isOwner && (
-            <div className="mt-4 flex gap-3">
-              <button
-                onClick={handleDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition"
-              >
-                Delete
-              </button>
-              <button
-                onClick={() => navigate(`/update/${anime.id}`)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
-              >
-                Update
-              </button>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>
