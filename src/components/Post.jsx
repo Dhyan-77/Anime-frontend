@@ -7,7 +7,8 @@ const Post = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState(null);
-  const [error, setError] = useState("")
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -20,21 +21,34 @@ const Post = () => {
     formData.append("photos", photos);
 
     try {
-      const res = await axios.post("https://anime-qww3.onrender.com/api/v1/post/", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'multipart/form-data',
+      setLoading(true);
+      setError({});
+
+      const res = await axios.post(
+        "https://anime-qww3.onrender.com/api/v1/post/",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
 
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 1000);
 
       console.log("Post created!", res.data);
-    } catch (error) {
-      console.error("Failed to create post", error.response?.data || error.message);
-      setError(res.error)
+    } catch (err) {
+      console.error("Failed to create post", err.response?.data || err.message);
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError({ general: "Something went wrong. Please try again later." });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,6 +64,10 @@ const Post = () => {
       >
         <h1 className="text-2xl font-bold text-white text-center">Create a Post</h1>
 
+        {error.general && (
+          <p className="text-red-600 text-sm text-center">{error.general}</p>
+        )}
+
         <label className="text-white font-semibold">Title</label>
         <input
           type="text"
@@ -57,11 +75,10 @@ const Post = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="p-2 rounded border"
+          disabled={loading}
           required
         />
-
-      {error.code && <p className="text-red-600 text-sm">{error.code}</p>}
-
+        {error.title && <p className="text-red-600 text-sm">{error.title}</p>}
 
         <label className="text-white font-semibold">Description</label>
         <textarea
@@ -69,8 +86,12 @@ const Post = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="p-2 rounded border resize-none"
+          disabled={loading}
           required
         ></textarea>
+        {error.description && (
+          <p className="text-red-600 text-sm">{error.description}</p>
+        )}
 
         <label className="text-white font-semibold">Image</label>
         <input
@@ -78,8 +99,10 @@ const Post = () => {
           accept="image/*"
           onChange={(e) => setPhotos(e.target.files[0])}
           className="bg-black text-white px-5 py-2 rounded-2xl"
+          disabled={loading}
           required
         />
+        {error.photos && <p className="text-red-600 text-sm">{error.photos}</p>}
 
         {photos && (
           <img
@@ -91,9 +114,10 @@ const Post = () => {
 
         <button
           type="submit"
-          className="bg-zinc-800 text-white py-2 rounded hover:bg-zinc-900"
+          className="bg-zinc-800 text-white py-2 rounded hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={loading}
         >
-          Create Post
+          {loading ? "Creating Post..." : "Create Post"}
         </button>
       </form>
     </div>
